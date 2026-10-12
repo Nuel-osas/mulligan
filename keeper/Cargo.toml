@@ -1,0 +1,14 @@
+[package]
+name = "mulligan-keeper"
+version = "0.1.0"
+edition = "2021"
+description = "Liquidation keeper and CLI for Mulligan on HyperEVM"
+
+[[bin]]
+name = "mulligan"
+path = "src/main.rs"
+
+[dependencies]
+alloy = { version = "1", features = ["full"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "time"] }
+eyre = "0.6"
