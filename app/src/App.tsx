@@ -3,7 +3,8 @@ import type { Address, WalletClient } from "viem";
 import { usdcAbi } from "./abi";
 import { HOUSE, chain, connectWallet, explorerTx, publicClient } from "./chain";
 import { useProtocol } from "./data";
-import { Docs, House, Landing, Portfolio, Stats, Trade, type Ctx } from "./pages";
+import { LandingPage } from "./landing";
+import { Docs, House, Portfolio, Stats, Trade, type Ctx } from "./pages";
 import { Mark, short } from "./ui";
 
 type Route = "home" | "trade" | "portfolio" | "house" | "stats" | "docs";
@@ -67,6 +68,7 @@ export function App() {
 
   const isApp = route !== "home";
   const ctx = s ? ({ s, account, busy, connect, send, approveIfNeeded } as Ctx) : null;
+  if (!isApp) return <LandingPage s={s} />;
 
   return (
     <>
@@ -113,9 +115,7 @@ export function App() {
             )}
           </p>
         )}
-        {route === "home" ? (
-          <Landing s={s} />
-        ) : route === "docs" ? (
+        {route === "docs" ? (
           <Docs s={s} />
         ) : !ctx ? (
           <p className="muted">Reading HyperEVM…</p>

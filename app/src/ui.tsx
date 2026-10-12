@@ -7,7 +7,7 @@ export function Mark() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden>
       <rect x="4" y="2" width="2.5" height="20" fill="currentColor" />
-      <path d="M6.5 3h13l-3.5 4 3.5 4h-13z" fill="#087dff" />
+      <path d="M6.5 3h13l-3.5 4 3.5 4h-13z" fill="#50d2c1" />
     </svg>
   );
 }
