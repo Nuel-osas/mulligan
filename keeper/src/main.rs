@@ -8,7 +8,7 @@
 //!   mulligan open <market> <long|short> <margin usd> <leverage>
 //!   mulligan close <id>
 //!
-//! Env: RPC_URL (default HyperEVM testnet), MULLIGAN (contract address),
+//! Env: RPC_URL (default HyperEVM mainnet), MULLIGAN (contract address),
 //! PRIVATE_KEY (only for commands that send transactions).
 
 use alloy::{
@@ -51,7 +51,7 @@ sol! {
     }
 }
 
-const TESTNET_RPC: &str = "https://rpc.hyperliquid-testnet.xyz/evm";
+const DEFAULT_RPC: &str = "https://rpc.hyperliquid.xyz/evm";
 
 /// Market names by HyperCore perp index, per network (chain id 998 testnet, 999 mainnet).
 fn markets(chain: u64) -> Vec<(&'static str, u32)> {
@@ -88,7 +88,7 @@ struct Ctx {
 }
 
 async fn connect() -> Result<Ctx> {
-    let rpc = env::var("RPC_URL").unwrap_or_else(|_| TESTNET_RPC.into());
+    let rpc = env::var("RPC_URL").unwrap_or_else(|_| DEFAULT_RPC.into());
     let house: Address = env::var("MULLIGAN")
         .map_err(|_| eyre!("set MULLIGAN to the contract address"))?
         .parse()?;

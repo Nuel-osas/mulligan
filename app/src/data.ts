@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Address } from "viem";
 import { mulliganAbi, usdcAbi } from "./abi";
-import { HOUSE, MARKETS, publicClient } from "./chain";
+import { DEPLOYED, HOUSE, MARKETS, hyperCorePx, publicClient } from "./chain";
 
 export const MIN_HOLD = 600;
 export const FEE_BPS = 10n;
@@ -130,6 +130,36 @@ export function useProtocol(account?: Address) {
   const hist = useRef<Protocol["history"]>([]);
   const load = useCallback(async () => {
     try {
+      if (!DEPLOYED) {
+        // Not deployed yet: live HyperCore prices straight from the precompiles, nothing else.
+        const px = await Promise.all(
+          MARKETS.map(async (m) => {
+            const [oracle, mark] = await Promise.all([
+              hyperCorePx("0x0000000000000000000000000000000000000807", m),
+              hyperCorePx("0x0000000000000000000000000000000000000806", m),
+            ]);
+            return { name: m.name, id: m.id, oracle, mark };
+          })
+        );
+        const block = await publicClient.getBlock();
+        hist.current = [...hist.current.slice(-299), { t: Date.now(), nav: 1, px: Object.fromEntries(px.map((p) => [p.name, Number(p.mark) / 1e6])) }];
+        setS({
+          prices: px,
+          houseAssets: 0n,
+          reserved: 0n,
+          supply: 0n,
+          nav: 1_000_000n,
+          usdc: "0x0000000000000000000000000000000000000000",
+          positions: [],
+          trades: [],
+          flows: [],
+          chainTime: Number(block.timestamp),
+          mine: { usdc: 0n, mull: 0n },
+          history: hist.current,
+        });
+        setErr("");
+        return;
+      }
       const [prices, houseAssets, reserved, supply, nav, nextId, usdc, block, idx] = await Promise.all([
         Promise.all(MARKETS.map((m) => read("prices", [m.id]))),
         read("houseAssets"),

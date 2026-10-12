@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { usdcAbi } from "./abi";
-import { HOUSE, chain, explorerTx, publicClient } from "./chain";
+import { DEPLOYED, HOUSE, chain, explorerTx, publicClient } from "./chain";
 import { useProtocol } from "./data";
 import { LandingPage } from "./landing";
 import { Docs, House, Portfolio, Stats, Trade, type Ctx } from "./pages";
@@ -97,6 +97,12 @@ export function App() {
       </header>
       {modal}
       <main>
+        {!DEPLOYED && (
+          <p className="msg warn">
+            Live on {chain.name}: prices below are read straight from HyperCore's precompiles. The Mulligan contract
+            deploys next; trading, the vault and stats open the moment it does.
+          </p>
+        )}
         {err && <p className="msg bad">{err}</p>}
         {w.error && !picker && <p className="msg bad">{w.error}</p>}
         {msg && (

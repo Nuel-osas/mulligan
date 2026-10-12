@@ -1,16 +1,14 @@
 // Wallet connection: EIP-6963 discovery of every injected wallet, network
 // switching to HyperEVM, an account menu, and silent reconnect on reload.
 import { useEffect, useRef, useState } from "react";
-import { createWalletClient, custom, formatEther, http, type Address, type WalletClient } from "viem";
-import { privateKeyToAccount } from "viem/accounts";
+import { createWalletClient, custom, formatEther, type Address, type WalletClient } from "viem";
 import { chain, publicClient, usd } from "./chain";
 import { short } from "./ui";
 
 type Eip1193 = { request: (a: { method: string; params?: unknown[] }) => Promise<any>; on?: any; removeListener?: any };
-export type WalletOption = { id: string; name: string; icon?: string; provider?: Eip1193; demo?: boolean };
+export type WalletOption = { id: string; name: string; icon?: string; provider?: Eip1193 };
 
 const LAST = "mulligan.wallet";
-const DEMO_PK = import.meta.env.VITE_DEMO_PK as `0x${string}` | undefined;
 const hexChain = `0x${chain.id.toString(16)}`;
 
 /** Every wallet the browser announces, plus a local demo signer on anvil. */
@@ -22,7 +20,6 @@ export function useWalletOptions() {
       const list = [...found.values()];
       const legacy = (window as any).ethereum as Eip1193 | undefined;
       if (!list.length && legacy) list.push({ id: "injected", name: "Browser wallet", provider: legacy });
-      if (DEMO_PK && chain.id === 31337) list.push({ id: "demo", name: "Local demo account", demo: true });
       setOpts(list);
     };
     const on = (e: any) => {
@@ -54,7 +51,7 @@ async function ensureChain(p: Eip1193) {
           chainName: chain.name,
           nativeCurrency: chain.nativeCurrency,
           rpcUrls: chain.rpcUrls.default.http,
-          blockExplorerUrls: chain.id === 999 ? ["https://hyperevmscan.io"] : chain.id === 998 ? ["https://testnet.purrsec.com"] : undefined,
+          blockExplorerUrls: [chain.id === 998 ? "https://testnet.purrsec.com" : "https://hyperevmscan.io"],
         },
       ],
     });
@@ -72,15 +69,11 @@ export function useWallet() {
   const connect = async (opt: WalletOption, silent = false) => {
     setError("");
     try {
-      if (opt.demo) {
-        setWallet(createWalletClient({ chain, transport: http(chain.rpcUrls.default.http[0]), account: privateKeyToAccount(DEMO_PK!) }));
-      } else {
-        const p = opt.provider!;
-        const accounts: Address[] = await p.request({ method: silent ? "eth_accounts" : "eth_requestAccounts" });
-        if (!accounts.length) return;
-        await ensureChain(p);
-        setWallet(createWalletClient({ chain, transport: custom(p), account: accounts[0] }));
-      }
+      const p = opt.provider!;
+      const accounts: Address[] = await p.request({ method: silent ? "eth_accounts" : "eth_requestAccounts" });
+      if (!accounts.length) return;
+      await ensureChain(p);
+      setWallet(createWalletClient({ chain, transport: custom(p), account: accounts[0] }));
       setActive(opt);
       try {
         localStorage.setItem(LAST, opt.id);
@@ -225,7 +218,7 @@ export function WalletModal({ w, onClose }: { w: WalletState; onClose: () => voi
               <span>
                 {o.icon ? <img src={o.icon} alt="" /> : <i className="dot" />}
                 {o.name}
-                <em>{pending === o.id ? "Check your wallet…" : o.demo ? "anvil only" : "Detected"}</em>
+                <em>{pending === o.id ? "Check your wallet…" : "Detected"}</em>
               </span>
             </button>
           ))}

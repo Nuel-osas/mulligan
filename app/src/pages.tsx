@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Address } from "viem";
 import { mulliganAbi, usdcAbi } from "./abi";
-import { HOUSE, MARKETS, chain, explorerTx, marketName, usd } from "./chain";
+import { DEPLOYED, HOUSE, MARKETS, chain, explorerAddr, explorerTx, marketName, usd } from "./chain";
 import { aggregate, FEE_BPS, MIN_HOLD, type Pos, type Protocol } from "./data";
 import { Btn, Spark, Split, Stat, ago, short, signed, tone } from "./ui";
 
@@ -246,7 +246,9 @@ export function Trade({ s, account, send, busy, approveIfNeeded, connect }: Ctx)
               <tr><td className="muted">Mulligan if you lose (after 10 min)</td><td style={{ color: "var(--ok)" }}>50% back as MULL</td></tr>
             </tbody>
           </table>
-          {account ? (
+          {!DEPLOYED ? (
+            <Btn go disabled>Opens at deploy</Btn>
+          ) : account ? (
             <Btn
               go
               disabled={!!busy || m === 0n}
@@ -260,7 +262,7 @@ export function Trade({ s, account, send, busy, approveIfNeeded, connect }: Ctx)
           ) : (
             <Btn go onClick={connect}>Connect wallet</Btn>
           )}
-          {account && (
+          {account && DEPLOYED && (
             <p className="muted" style={{ fontSize: 13 }}>
               {usd(s.mine.usdc)} USDC available ·{" "}
               <a href="#" onClick={(e) => { e.preventDefault(); send("Faucet", s.usdc, usdcAbi, "faucet", [1_000_000_000n]); }}>
@@ -614,8 +616,11 @@ export function Docs({ s }: { s: Protocol | null }) {
         <table>
           <tbody>
             <tr><td>Network</td><td>{chain.name} (chain {chain.id})</td></tr>
-            <tr><td>Mulligan</td><td className="mono">{HOUSE}</td></tr>
-            <tr><td>Collateral</td><td className="mono">{s?.usdc ?? "–"}</td></tr>
+            <tr>
+              <td>Mulligan</td>
+              <td className="mono">{DEPLOYED ? <a href={explorerAddr(HOUSE)} target="_blank">{HOUSE}</a> : "Not deployed yet"}</td>
+            </tr>
+            <tr><td>Collateral</td><td className="mono">{DEPLOYED && s ? s.usdc : "–"}</td></tr>
             <tr><td>Source</td><td><a href="https://github.com/Nuel-osas/mulligan" target="_blank">github.com/Nuel-osas/mulligan</a></td></tr>
           </tbody>
         </table>

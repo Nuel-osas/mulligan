@@ -59,21 +59,20 @@ close / liquidate (anyone, at 90% margin loss; the liquidator keeps the remainde
 
 ```bash
 forge test                                   # 13 tests
-cd keeper && cargo build --release           # Rust keeper + CLI
+cd keeper && cargo build --release && cd ..  # Rust keeper + CLI
 
-# deploy (HyperEVM testnet, chain 998)
-MARKETS=testnet forge script script/Deploy.s.sol \
-  --rpc-url https://rpc.hyperliquid-testnet.xyz/evm --private-key $PK --broadcast
+./deploy-mainnet.sh                          # HyperEVM mainnet; key typed into a hidden prompt
+                                             # writes the address into app/.env.local
 
-export MULLIGAN=<address> PRIVATE_KEY=$PK
+export MULLIGAN=<address>                    # RPC defaults to https://rpc.hyperliquid.xyz/evm
 ./keeper/target/release/mulligan prices      # live HyperCore prices through the contract
 ./keeper/target/release/mulligan status      # house + every open position
-./keeper/target/release/mulligan watch       # liquidation keeper
+PRIVATE_KEY=... ./keeper/target/release/mulligan watch   # liquidation keeper
 
-cd app && VITE_CHAIN_ID=998 VITE_MULLIGAN=<address> pnpm dev
+cd app && pnpm install && pnpm dev           # http://localhost:5174
 ```
 
-HyperCore precompiles exist only on HyperEVM. To test locally, run `anvil` and install the mock with `anvil_setCode` at `0x…0806` and `0x…0807`. `README-local.md` has the exact commands.
+Before the contract is deployed, the app runs read-only on HyperEVM mainnet and reads HyperCore prices directly from the precompiles. Testnet: `VITE_CHAIN_ID=998`, `MARKETS=testnet` for the deploy script. For local development with mocked precompiles, see `README-local.md`.
 
 ## Limits
 
