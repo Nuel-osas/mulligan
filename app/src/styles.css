@@ -202,3 +202,28 @@ footer.built b { color: var(--ink); font-weight: 600; }
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .stat .n { font-size: 24px; }
 }
+
+/* ---------- app pages ---------- */
+.trade-grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: start; }
+@media (max-width: 900px) { .trade-grid { grid-template-columns: minmax(0, 1fr); } }
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.tabs b { font-weight: 400; margin-left: 6px; opacity: 0.8; }
+.big { font-size: 40px; font-weight: 400; letter-spacing: -0.04em; line-height: 1.1; margin: 6px 0 4px; }
+.stat .sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
+.card label { flex: none; }
+.spark { position: relative; margin-top: 12px; border: 1px solid var(--line); background: rgba(2, 11, 37, 0.6); }
+.spark svg { display: block; width: 100%; }
+.spark.empty { display: grid; place-items: center; color: var(--faint); font-family: var(--mono); font-size: 12px; }
+.spark-axis { position: absolute; inset: 6px 8px; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; pointer-events: none; font-family: var(--mono); font-size: 10px; color: var(--faint); }
+.spark-label { position: absolute; top: 8px; left: 10px; }
+.split-bar { display: flex; height: 10px; background: var(--box-strong); border: 1px solid var(--line); margin: 8px 0 6px; }
+.split-bar .a, .split-legend i.a { background: var(--glow); }
+.split-bar .b, .split-legend i.b { background: rgba(205, 231, 255, 0.25); }
+.split-legend { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+.split-legend i { display: inline-block; width: 8px; height: 8px; margin-right: 4px; }
+.oi { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.faq dt { font-weight: 500; margin-top: 16px; letter-spacing: -0.01em; }
+.faq dd { margin: 6px 0 0; color: var(--muted); }
+.docs ol, .docs ul { padding-left: 20px; color: var(--muted); }
+.docs li { margin: 8px 0; }
+.docs li b { color: var(--ink); font-weight: 500; }
