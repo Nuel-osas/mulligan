@@ -1,6 +1,6 @@
 // Marketing site: nuntio structure in Hyperliquid green, with a field of
 // mint particles where losses fall into the house and half bounce back.
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { usd } from "./chain";
 import { aggregate, type Protocol } from "./data";
 import { Mark } from "./ui";
@@ -96,7 +96,7 @@ function Field() {
   return <canvas ref={ref} className="field" aria-hidden />;
 }
 
-export function LandingPage({ s }: { s: Protocol | null }) {
+export function LandingPage({ s, wallet }: { s: Protocol | null; wallet: ReactNode }) {
   const a = s && aggregate(s);
   const px = (name: string) => {
     const p = s?.prices.find((x) => x.name === name);
@@ -115,9 +115,8 @@ export function LandingPage({ s }: { s: Protocol | null }) {
           <a href="#/stats">Stats</a>
           <a href="#/docs">Docs</a>
           <a href="https://github.com/Nuel-osas/mulligan" target="_blank">Code</a>
-          <a className="cta" href="#/trade">
-            <span>Open the app</span>
-          </a>
+          <a href="#/trade">Open the app</a>
+          {wallet}
         </nav>
       </header>
 

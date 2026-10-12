@@ -1,13 +1,4 @@
-import {
-  createPublicClient,
-  createWalletClient,
-  custom,
-  defineChain,
-  http,
-  type Address,
-  type WalletClient,
-} from "viem";
-import { privateKeyToAccount } from "viem/accounts";
+import { createPublicClient, defineChain, http, type Address } from "viem";
 
 const env = import.meta.env;
 const CHAIN_ID = Number(env.VITE_CHAIN_ID ?? 998);
@@ -46,35 +37,6 @@ export const explorerTx = (hash: string) =>
     : CHAIN_ID === 998
       ? `https://testnet.purrsec.com/tx/${hash}`
       : "";
-
-/**
- * A browser wallet when present. On a local chain, VITE_DEMO_PK signs instead
- * (anvil test key only; never set it for a real network).
- */
-export async function connectWallet(): Promise<WalletClient> {
-  if (env.VITE_DEMO_PK && CHAIN_ID === 31337) {
-    return createWalletClient({ chain, transport: http(RPC), account: privateKeyToAccount(env.VITE_DEMO_PK) });
-  }
-  const eth = (window as any).ethereum;
-  if (!eth) throw new Error("No wallet found. Install Rabby or MetaMask.");
-  const [account] = await eth.request({ method: "eth_requestAccounts" });
-  try {
-    await eth.request({ method: "wallet_switchEthereumChain", params: [{ chainId: `0x${CHAIN_ID.toString(16)}` }] });
-  } catch {
-    await eth.request({
-      method: "wallet_addEthereumChain",
-      params: [
-        {
-          chainId: `0x${CHAIN_ID.toString(16)}`,
-          chainName: chain.name,
-          nativeCurrency: chain.nativeCurrency,
-          rpcUrls: [RPC],
-        },
-      ],
-    });
-  }
-  return createWalletClient({ chain, transport: custom(eth), account });
-}
 
 export const usd = (v: bigint, dp = 2) => {
   const neg = v < 0n;

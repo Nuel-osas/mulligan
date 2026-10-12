@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import type { Address, WalletClient } from "viem";
 import { usdcAbi } from "./abi";
-import { HOUSE, chain, connectWallet, explorerTx, publicClient } from "./chain";
+import { HOUSE, chain, explorerTx, publicClient } from "./chain";
 import { useProtocol } from "./data";
 import { LandingPage } from "./landing";
 import { Docs, House, Portfolio, Stats, Trade, type Ctx } from "./pages";
-import { Mark, short } from "./ui";
+import { Mark } from "./ui";
+import { WalletButton, WalletModal, useWallet } from "./wallet";
 
 type Route = "home" | "trade" | "portfolio" | "house" | "stats" | "docs";
 const APP: [Route, string][] = [
@@ -32,13 +32,16 @@ function useRoute(): Route {
 
 export function App() {
   const route = useRoute();
-  const [wallet, setWallet] = useState<WalletClient | null>(null);
-  const account = wallet?.account?.address as Address | undefined;
+  const w = useWallet();
+  const { wallet, account } = w;
+  const [picker, setPicker] = useState(() => location.hash.includes("connect"));
   const { s, err, reload } = useProtocol(account);
   const [msg, setMsg] = useState<{ ok: boolean; text: string; hash?: string } | null>(null);
   const [busy, setBusy] = useState("");
 
-  const connect = () => connectWallet().then(setWallet, (e) => setMsg({ ok: false, text: e.message }));
+  const connect = () => setPicker(true);
+  const modal = picker && <WalletModal w={w} onClose={() => setPicker(false)} />;
+  const mine = s && account ? { ...s.mine, nav: s.nav } : undefined;
 
   const send: Ctx["send"] = async (label, address, abi, functionName, args) => {
     if (!wallet) return setMsg({ ok: false, text: "Connect a wallet first." });
@@ -68,7 +71,13 @@ export function App() {
 
   const isApp = route !== "home";
   const ctx = s ? ({ s, account, busy, connect, send, approveIfNeeded } as Ctx) : null;
-  if (!isApp) return <LandingPage s={s} />;
+  if (!isApp)
+    return (
+      <>
+        <LandingPage s={s} wallet={<WalletButton w={w} mine={mine} onConnect={connect} />} />
+        {modal}
+      </>
+    );
 
   return (
     <>
@@ -78,35 +87,18 @@ export function App() {
           mulligan
         </a>
         <nav>
-          {isApp ? (
-            APP.map(([r, l]) => (
-              <a key={r} href={`#/${r}`} className={route === r ? "on" : ""}>
-                {l}
-              </a>
-            ))
-          ) : (
-            <>
-              <a href="#/docs">How it works</a>
-              <a href="#/house">Vault</a>
-              <a href="#/stats">Stats</a>
-              <a href="https://github.com/Nuel-osas/mulligan" target="_blank">Code</a>
-            </>
-          )}
-          {isApp && account ? (
-            <a className="on" href="#/portfolio">{short(account)}</a>
-          ) : isApp ? (
-            <a className="cta" href="#" onClick={(e) => { e.preventDefault(); connect(); }}>
-              <span>Connect wallet</span>
+          {APP.map(([r, l]) => (
+            <a key={r} href={`#/${r}`} className={route === r ? "on" : ""}>
+              {l}
             </a>
-          ) : (
-            <a className="cta" href="#/trade">
-              <span>Open the app</span>
-            </a>
-          )}
+          ))}
+          <WalletButton w={w} mine={mine} onConnect={connect} />
         </nav>
       </header>
+      {modal}
       <main>
         {err && <p className="msg bad">{err}</p>}
+        {w.error && !picker && <p className="msg bad">{w.error}</p>}
         {msg && (
           <p className={`msg ${msg.ok ? "ok" : "bad"}`}>
             {msg.text}{" "}

@@ -222,3 +222,22 @@ footer.built b { color: var(--ink); font-weight: 600; }
 .docs li b { color: var(--ink); font-weight: 500; }
 
 input[type=range] { accent-color: var(--accent); padding: 0; border: 0; background: none; }
+
+/* ---------- wallet ---------- */
+.acct { position: relative; display: flex; }
+.acct-btn { display: inline-flex !important; align-items: center; gap: 8px; }
+.acct-btn img, .wallet-opt img { width: 18px; height: 18px; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 8px var(--ok); }
+.acct-menu {
+  position: absolute; right: 0; top: calc(100% + 8px); width: 320px; z-index: 20;
+  background: #03211c; border: 1px solid var(--line-strong); padding: 16px; display: grid; gap: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+.acct-addr { font-size: 12px; color: var(--muted); word-break: break-all; }
+.acct-menu table td { padding: 6px 0; }
+.modal-bg { position: fixed; inset: 0; z-index: 50; background: rgba(1, 10, 8, 0.72); backdrop-filter: blur(6px); display: grid; place-items: center; padding: 16px; }
+.modal { width: min(440px, 100%); background: #03211c; border: 1px solid var(--line-strong); padding: 22px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6); }
+.wallets { display: grid; gap: 8px; margin-top: 16px; }
+.wallet-opt { width: 100%; }
+.wallet-opt > span { width: 100%; display: flex !important; align-items: center; gap: 12px; text-transform: none; letter-spacing: 0; font-size: 15px; }
+.wallet-opt em { margin-left: auto; font-style: normal; font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; }
