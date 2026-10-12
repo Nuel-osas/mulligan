@@ -1,5 +1,5 @@
-// Marketing site, in Hyperliquid's visual language: light paper hero with a
-// serif display face, a forest-green field of mint particles, mint actions.
+// Marketing site: nuntio structure in Hyperliquid green, with a field of
+// mint particles where losses fall into the house and half bounce back.
 import { useEffect, useRef } from "react";
 import { usd } from "./chain";
 import { aggregate, type Protocol } from "./data";
@@ -104,35 +104,52 @@ export function LandingPage({ s }: { s: Protocol | null }) {
   };
   return (
     <div className="lp">
-      <header className="lp-top">
-        <div className="lchips">
-          <a className="lchip logo" href="#/">
-            <Mark /> mulligan
+      <header className="top">
+        <a className="brand" href="#/">
+          <Mark />
+          mulligan
+        </a>
+        <nav>
+          <a href="#how">How it works</a>
+          <a href="#/house">Vault</a>
+          <a href="#/stats">Stats</a>
+          <a href="#/docs">Docs</a>
+          <a href="https://github.com/Nuel-osas/mulligan" target="_blank">Code</a>
+          <a className="cta" href="#/trade">
+            <span>Open the app</span>
           </a>
-          <a className="lchip" href="#how">How it works</a>
-          <a className="lchip" href="#/house">Vault</a>
-          <a className="lchip" href="#/stats">Stats</a>
-          <a className="lchip" href="#/docs">Docs</a>
-        </div>
-        <div className="lchips">
-          <a className="lchip" href="https://github.com/Nuel-osas/mulligan" target="_blank">Code</a>
-          <a className="lchip mint" href="#/trade">Trade</a>
-        </div>
+        </nav>
       </header>
 
-      <section className="lp-hero">
-        <h1>
-          Every loss buys
-          <br />a piece of the house
-        </h1>
-        <div className="lp-hero-side">
-          <p>
-            Perpetuals on HyperEVM, priced straight from HyperCore. Lose after holding ten minutes and half your loss
-            comes back as MULL. Every winner is paid in full, at once.
+      <section className="hero lp-hero">
+        <div>
+          <h1>Lose a trade. Keep a piece of the house.</h1>
+          <p className="lede">
+            <strong>Perpetuals on HyperEVM, priced straight from HyperCore.</strong> Lose after holding ten minutes
+            and half your loss comes back as MULL, a share of the house that took it. Every winner is paid in full,
+            at once.
           </p>
-          <a className="mint-btn" href="#/trade">
-            Trade <span>↗</span>
-          </a>
+          <div className="row" style={{ flexDirection: "column", alignItems: "flex-start", gap: 6 }}>
+            <a href="#/trade"><button className="go"><span>Open the app</span></button></a>
+            <a href="#how"><button className="ghost"><span>See how it works</span></button></a>
+          </div>
+        </div>
+        <div className="flow" aria-label="How a trade settles">
+          <div className="tag" style={{ textAlign: "center" }}>Example trade · ETH 20× long</div>
+          <div className="tier">
+            <div className="node"><div className="tag">Price · HyperCore</div><b>ETH {px("ETH")}</b><small>Oracle + mark precompiles</small></div>
+            <div className="node lit"><div className="tag">House · MULL</div><b>{s ? usd(s.houseAssets) : "–"}</b><small>Reserves every winner up front</small></div>
+          </div>
+          <div className="tier">
+            <div className="node"><div className="tag">Trader</div><b>Long $1,000</b><small>$50 margin · held 12 min</small></div>
+            <div className="node hot"><div className="tag">Closed</div><b>−$100.00</b><small>Price moved 5% against</small></div>
+          </div>
+          <div className="note"><span className="chip">Loss booked by the house first</span></div>
+          <div className="tier">
+            <div className="node lit"><div className="tag">Mulligan</div><b>+$50.00 of MULL</b><small>Minted at NAV · transferable</small></div>
+            <div className="node"><div className="tag">LPs</div><b>+$50.00 + fees</b><small>Always keep at least half</small></div>
+          </div>
+          <div className="note"><span className="chip white">No queue · no owner · no upgrades</span></div>
         </div>
       </section>
 
@@ -270,10 +287,12 @@ _mint(trader, shares);`}</pre>
       </section>
 
       <section className="lp-cta">
-        <h2>Take the trade. Keep the mulligan.</h2>
-        <a className="mint-btn" href="#/trade">
-          Open the app <span>↗</span>
-        </a>
+        <div>
+          <h2>Take the trade. Keep the mulligan.</h2>
+          <a className="mint-btn" href="#/trade">
+            Open the app <span>→</span>
+          </a>
+        </div>
       </section>
 
       <footer className="lp-foot">

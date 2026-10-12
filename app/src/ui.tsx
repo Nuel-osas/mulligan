@@ -55,12 +55,12 @@ export function Spark({ data, height = 140, label }: { data: number[]; height?: 
       <svg viewBox={`0 0 ${w} ${height}`} preserveAspectRatio="none" style={{ height }}>
         <defs>
           <linearGradient id="fill" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stopColor={up ? "#087dff" : "#ff8a80"} stopOpacity="0.35" />
-            <stop offset="1" stopColor={up ? "#087dff" : "#ff8a80"} stopOpacity="0" />
+            <stop offset="0" stopColor={up ? "#50d2c1" : "#ff8a80"} stopOpacity="0.35" />
+            <stop offset="1" stopColor={up ? "#50d2c1" : "#ff8a80"} stopOpacity="0" />
           </linearGradient>
         </defs>
         <polygon points={`0,${height} ${pts.join(" ")} ${w},${height}`} fill="url(#fill)" />
-        <polyline points={pts.join(" ")} fill="none" stroke={up ? "#cde7ff" : "#ff8a80"} strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+        <polyline points={pts.join(" ")} fill="none" stroke={up ? "#97fce4" : "#ff8a80"} strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
       </svg>
       <div className="spark-axis">
         <span>{hi.toLocaleString("en-US", { maximumFractionDigits: 4 })}</span>
