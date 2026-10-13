@@ -3,11 +3,11 @@ import type { ReactNode } from "react";
 import { usd } from "./chain";
 
 export function Mark() {
-  // A flag on a green: a do-over.
+  // Two up-chevrons forming an M: the loss, and the half that comes back.
   return (
-    <svg viewBox="0 0 24 24" aria-hidden>
-      <rect x="4" y="2" width="2.5" height="20" fill="currentColor" />
-      <path d="M6.5 3h13l-3.5 4 3.5 4h-13z" fill="#50d2c1" />
+    <svg viewBox="0 0 26 23" aria-hidden>
+      <path d="M0 18 L8 5 L16 18 H11 L8 12.6 L5 18 Z" fill="currentColor" />
+      <path d="M10 18 L18 5 L26 18 H21 L18 12.6 L15 18 Z" fill="#50d2c1" />
     </svg>
   );
 }
