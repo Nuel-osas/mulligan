@@ -1,0 +1,8 @@
+s1|Last week, a perps venue on HyperEVM started paying traders for losing. Then farmers gamed it, winners waited in a queue, and the owner could change everything.
+s2|This is Mulligan. Perps where a losing trade buys you a piece of the house.
+s3|Prices come straight from HyperCore's oracle and mark precompiles, live on HyperEVM mainnet. You always get the worse of the two, so latency games don't pay.
+s4|Every position reserves its maximum profit the moment it opens. Liquidity providers can't withdraw it, so winners are always paid, instantly. No queue.
+s5|Lose after holding ten minutes, and half your loss comes back as MULL, a share of the house, minted after the house books the loss. Real assets, not emissions.
+s6|In a test run on live prices, our Rust keeper liquidated losing positions on its own, and every loser got exactly half back.
+s7|Thirteen Foundry tests, fuzzed for solvency and hedge farming. Farmers can still farm, but the house always keeps at least half, plus fees. No owner, no upgrades.
+s8|Mulligan. Lose a trade, keep a piece of the house. Built on HyperCore and HyperEVM.

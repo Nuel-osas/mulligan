@@ -1,0 +1,49 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--line:rgba(151,252,228,.18);--muted:#9fbfb7;--faint:#5f8078;--ok:#5ef0c4;--bad:#ff8fa0;--amber:#f0c56a}
+*{box-sizing:border-box}body{margin:0;color:#f2fbf8;font:15px/1.5 "Inter Tight",sans-serif;background:radial-gradient(80% 70% at 75% 100%,rgba(47,224,181,.28),transparent 70%),#021512;min-height:100vh}
+.mono,.tag,th{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 24px}
+.brand{display:flex;gap:8px;align-items:center;font-size:21px;font-weight:500;letter-spacing:-.03em}.brand img{width:28px}
+.badge{padding:8px 14px;border:1px solid var(--amber);color:var(--amber);font:13px ui-monospace,Menlo,monospace}
+main{max-width:1260px;margin:0 auto;padding:20px 24px}
+h1{font-size:58px;font-weight:400;letter-spacing:-.05em;margin:10px 0 6px}
+.lede{color:var(--muted);margin:0 0 22px}
+.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.card{background:rgba(3,33,28,.72);border:1px solid var(--line);padding:18px}
+.tag{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.tag:before{content:"[ ";color:var(--faint)}.tag:after{content:" ]";color:var(--faint)}
+.n{font-size:30px;font-weight:500;letter-spacing:-.035em;margin-top:10px}
+.two{display:grid;grid-template-columns:1.2fr 1fr;gap:12px;margin-top:12px}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px}th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line)}th{font-size:11px;color:var(--muted);font-weight:400;text-transform:uppercase;letter-spacing:.08em}
+.ok{color:var(--ok)}.bad{color:var(--bad)}.pill{font:11px ui-monospace,Menlo,monospace;padding:2px 7px;border:1px solid rgba(94,240,196,.45);color:var(--ok);background:rgba(94,240,196,.1);margin-left:6px}.pill.r{border-color:rgba(255,143,160,.45);color:var(--bad);background:rgba(255,143,160,.1)}
+</style></head><body>
+<header><div class="brand"><img src="mark.svg">mulligan</div><div class="badge">[ Local test run · live Hyperliquid prices · Rust keeper ]</div></header>
+<main>
+<h1>Protocol stats</h1><p class="lede">Indexed from Mulligan's on-chain events during the local end-to-end run.</p>
+<div class="grid">
+<div class="card"><div class="tag">Volume</div><div class="n">$17,150</div></div>
+<div class="card"><div class="tag">Fees</div><div class="n">$17.15</div></div>
+<div class="card"><div class="tag">Traders</div><div class="n">6</div></div>
+<div class="card"><div class="tag">Trades closed</div><div class="n">5</div></div>
+<div class="card"><div class="tag">Liquidations</div><div class="n">2</div></div>
+<div class="card"><div class="tag">Mulligans paid</div><div class="n ok">$134.07</div></div>
+</div>
+<div class="two">
+<div class="card"><div class="tag">Leaderboard</div><table>
+<tr><th>#</th><th>Trader</th><th>PnL</th><th>Win rate</th><th>Mulligans</th></tr>
+<tr><td>1</td><td class="mono">0x9965…A4dc</td><td class="ok">+$36.64</td><td>100% · 1</td><td>–</td></tr>
+<tr><td>2</td><td class="mono">0x15d3…6A65</td><td class="bad">-$18.18</td><td>0% · 1</td><td class="ok">+$9.09</td></tr>
+<tr><td>3</td><td class="mono">0x90F7…b906</td><td class="bad">-$49.97</td><td>0% · 1</td><td class="ok">+$24.98</td></tr>
+<tr><td>4</td><td class="mono">0x7099…79C8</td><td class="bad">-$100.00</td><td>0% · 1</td><td class="ok">+$50.00</td></tr>
+<tr><td>5</td><td class="mono">0x976E…0aa9</td><td class="bad">-$100.00</td><td>0% · 1</td><td class="ok">+$50.00</td></tr>
+</table></div>
+<div class="card"><div class="tag">Recent settlements</div><table>
+<tr><th>Trade</th><th>PnL</th><th>Mulligan</th></tr>
+<tr><td>Long ETH 20×</td><td class="bad">-$100.00<span class="pill r">liquidated</span></td><td class="ok">+$50.00 MULL</td></tr>
+<tr><td>Long ETH 10×</td><td class="bad">-$49.97</td><td class="ok">+$24.98 MULL</td></tr>
+<tr><td>Short BTC 5×</td><td class="bad">-$18.18</td><td class="ok">+$9.09 MULL</td></tr>
+<tr><td>Long SOL 8×</td><td class="ok">+$36.64</td><td>paid instantly</td></tr>
+<tr><td>Short HYPE 5×</td><td class="bad">-$100.00<span class="pill r">liquidated</span></td><td class="ok">+$50.00 MULL</td></tr>
+</table></div>
+</div></main></body></html>

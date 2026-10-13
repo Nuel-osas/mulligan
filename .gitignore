@@ -6,3 +6,10 @@ app/.env.local
 broadcast/*/31337
 out
 cache
+video/node_modules
+video/raw
+video/*.mp4
+video/*.mp3
+video/*.png
+video/seg_*
+video/music

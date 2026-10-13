@@ -1,0 +1,59 @@
+{
+ "beat": 0.5,
+ "open": {
+  "file": "motion_open.mp4",
+  "dur": 11.5,
+  "voice": {
+   "id": "s1",
+   "at": 1.2
+  }
+ },
+ "close": {
+  "file": "motion_close.mp4",
+  "hold": 2.5,
+  "voice": {
+   "id": "s8",
+   "at": 0.9
+  }
+ },
+ "scenes": [
+  {
+   "id": "s2",
+   "clip": "raw/s2.webm",
+   "start": 4.517
+  },
+  {
+   "id": "s3",
+   "clip": "raw/s3.webm",
+   "start": 6.91
+  },
+  {
+   "id": "s4",
+   "clip": "raw/s4.webm",
+   "start": 6.843
+  },
+  {
+   "id": "s5",
+   "clip": "raw/s5.webm",
+   "start": 4.462
+  },
+  {
+   "id": "s6",
+   "clip": "raw/s6.webm",
+   "start": 3.092
+  },
+  {
+   "id": "s7",
+   "clip": "raw/s7.webm",
+   "start": 2.14
+  }
+ ],
+ "pad": 1.1,
+ "max_speed": 1.6,
+ "music": {
+  "file": "music/music-uplifting-bass-lily-j-120bpm.mp3",
+  "offset": 0.133,
+  "volume": 0.35
+ },
+ "out": "mulligan-demo.mp4"
+}
